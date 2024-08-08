@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/appLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_app_logo" />
+
+    <TextView
+        android:id="@+id/summaryText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your Pantry Summary" />
+
+    <Button
+        android:id="@+id/pantryButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pantry" />
+
+    <Button
+        android:id="@+id/groceryListButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Grocery List" />
+
+    <Button
+        android:id="@+id/recipeButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Recipes" />
+</LinearLayout>
