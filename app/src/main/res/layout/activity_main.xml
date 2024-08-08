@@ -9,29 +9,36 @@
         android:id="@+id/appLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="24dp"
+        android:layout_marginTop="16dp"
         android:src="@drawable/ic_app_logo" />
 
     <TextView
         android:id="@+id/summaryText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:text="Your Pantry Summary" />
 
     <Button
         android:id="@+id/pantryButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:text="Pantry" />
 
     <Button
         android:id="@+id/groceryListButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:text="Grocery List" />
 
     <Button
         android:id="@+id/recipeButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:text="Recipes" />
 </LinearLayout>
