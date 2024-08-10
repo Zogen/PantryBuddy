@@ -3,7 +3,9 @@ package com.example.testapp;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -36,10 +38,11 @@ public class PantryActivity extends AppCompatActivity {
 
         loadPantryItems();
 
-        findViewById(R.id.addPantryItemButton).setOnClickListener(new View.OnClickListener() {
+        Button addPantryItemButton = findViewById(R.id.addPantryItemButton);
+        addPantryItemButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showAddItemDialog();
+                showAddPantryItemDialog();
             }
         });
     }
@@ -96,4 +99,58 @@ public class PantryActivity extends AppCompatActivity {
 
         builder.show();
     }
+
+    private void showAddPantryItemDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Add Pantry Item");
+
+        // Set up the input fields
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+
+        final EditText itemNameInput = new EditText(this);
+        itemNameInput.setHint("Item Name");
+        layout.addView(itemNameInput);
+
+        final EditText itemQuantityInput = new EditText(this);
+        itemQuantityInput.setHint("Quantity");
+        itemQuantityInput.setInputType(InputType.TYPE_CLASS_NUMBER);
+        layout.addView(itemQuantityInput);
+
+        builder.setView(layout);
+
+        // Set up the buttons
+        builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String itemName = itemNameInput.getText().toString().trim();
+                int itemQuantity = Integer.parseInt(itemQuantityInput.getText().toString().trim());
+
+                // Check if the item already exists in the pantry
+                PantryItem existingPantryItem = dbHelper.getPantryItemByName(itemName);
+
+                if (existingPantryItem != null) {
+                    // Item exists, update its quantity
+                    int newQuantity = existingPantryItem.getQuantity() + itemQuantity;
+                    dbHelper.updatePantryItemQuantity(existingPantryItem.getId(), newQuantity);
+                } else {
+                    // Item does not exist, insert it as a new item
+                    dbHelper.insertPantryItem(itemName, itemQuantity);
+                }
+
+                // Refresh the pantry list
+                loadPantryItems();
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
+
 }

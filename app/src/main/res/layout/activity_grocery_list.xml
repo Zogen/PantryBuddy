@@ -24,7 +24,7 @@
         android:id="@+id/moveToPantryButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Move to Pantry"
+        android:text="Move Groceries to Pantry"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="8dp" />
 
