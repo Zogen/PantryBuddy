@@ -16,5 +16,16 @@
         android:id="@+id/addGroceryButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add Grocery Item" />
+        android:text="Add Grocery Item"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp" />
+
+    <Button
+        android:id="@+id/moveToPantryButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Move to Pantry"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp" />
+
 </LinearLayout>

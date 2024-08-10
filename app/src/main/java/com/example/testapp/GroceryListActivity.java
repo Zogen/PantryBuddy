@@ -1,12 +1,13 @@
 package com.example.testapp;
 
 import android.content.DialogInterface;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,23 +17,56 @@ import java.util.List;
 
 public class GroceryListActivity extends AppCompatActivity {
 
+    private DatabaseHelper dbHelper;
     private RecyclerView groceryRecyclerView;
-    private GroceryAdapter groceryAdapter;
+    private GroceryAdapter adapter;
     private List<GroceryItem> groceryList;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grocery_list);
 
+        dbHelper = new DatabaseHelper(this);
         groceryRecyclerView = findViewById(R.id.groceryRecyclerView);
+
         groceryRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         groceryList = new ArrayList<>();
-        groceryAdapter = new GroceryAdapter(groceryList);
-        groceryRecyclerView.setAdapter(groceryAdapter);
+        adapter = new GroceryAdapter(this, groceryList, dbHelper); // Pass dbHelper here
+        groceryRecyclerView.setAdapter(adapter);
 
-        findViewById(R.id.addGroceryButton).setOnClickListener(v -> showAddItemDialog());
+        loadGroceryItems();
+
+        findViewById(R.id.addGroceryButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAddItemDialog();
+            }
+        });
+
+        Button moveToPantryButton = findViewById(R.id.moveToPantryButton);
+        moveToPantryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                moveGroceryItemsToPantry();
+            }
+        });
+
+    }
+
+    private void loadGroceryItems() {
+        Cursor cursor = dbHelper.getAllGroceryItems();
+        groceryList.clear();
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(cursor.getColumnIndex("_id"));
+                String name = cursor.getString(cursor.getColumnIndex("name"));
+                int quantity = cursor.getInt(cursor.getColumnIndex("quantity"));
+                groceryList.add(new GroceryItem(id, name, quantity));
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+        adapter.notifyDataSetChanged();
     }
 
     private void showAddItemDialog() {
@@ -60,8 +94,8 @@ public class GroceryListActivity extends AppCompatActivity {
                 String itemQuantityStr = itemQuantityInput.getText().toString();
                 if (!itemName.isEmpty() && !itemQuantityStr.isEmpty()) {
                     int itemQuantity = Integer.parseInt(itemQuantityStr);
-                    groceryList.add(new GroceryItem(itemName, itemQuantity));
-                    groceryAdapter.notifyDataSetChanged();
+                    dbHelper.insertGroceryItem(itemName, itemQuantity);
+                    loadGroceryItems(); // Refresh the list
                 } else {
                     Toast.makeText(GroceryListActivity.this, "Please enter both name and quantity", Toast.LENGTH_SHORT).show();
                 }
@@ -72,4 +106,33 @@ public class GroceryListActivity extends AppCompatActivity {
 
         builder.show();
     }
+
+    private void moveGroceryItemsToPantry() {
+        for (GroceryItem groceryItem : groceryList) {
+            String itemName = groceryItem.getName();
+            int groceryQuantity = groceryItem.getQuantity();
+
+            // Check if the item already exists in the pantry
+            PantryItem pantryItem = dbHelper.getPantryItemByName(itemName);
+
+            if (pantryItem != null) {
+                // Item exists in the pantry, update its quantity
+                int newQuantity = pantryItem.getQuantity() + groceryQuantity;
+                dbHelper.updatePantryItemQuantity(pantryItem.getId(), newQuantity);
+            } else {
+                // Item does not exist, add it to the pantry
+                dbHelper.insertPantryItem(itemName, groceryQuantity);
+            }
+
+            // Remove the item from the grocery list
+            dbHelper.deleteGroceryItem(groceryItem.getId());
+        }
+
+        // Clear the grocery list and refresh the view
+        groceryList.clear();
+        adapter.notifyDataSetChanged();
+
+        Toast.makeText(this, "Items moved to pantry", Toast.LENGTH_SHORT).show();
+    }
+
 }
