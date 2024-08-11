@@ -133,4 +133,39 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put("quantity", newQuantity);
         db.update("pantry", values, "id=?", new String[]{String.valueOf(id)});
     }
+
+    // Retrieve grocery item by name
+    public GroceryItem getGroceryItemByName(String name) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(
+                "grocery",
+                null,
+                "name = ?",
+                new String[]{name},
+                null,
+                null,
+                null
+        );
+
+        if (cursor != null && cursor.moveToFirst()) {
+            int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
+            int quantity = cursor.getInt(cursor.getColumnIndexOrThrow("quantity"));
+            cursor.close();
+            return new GroceryItem(id, name, quantity);
+        }
+
+        if (cursor != null) {
+            cursor.close();
+        }
+        return null; // Item not found
+    }
+
+    // Update quantity of existing grocery item
+    public void updateGroceryItemQuantity(int id, int newQuantity) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("quantity", newQuantity);
+        db.update("grocery", values, "id=?", new String[]{String.valueOf(id)});
+    }
+
 }

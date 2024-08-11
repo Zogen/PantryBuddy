@@ -139,6 +139,7 @@ public class PantryActivity extends AppCompatActivity {
                 }
 
                 // Refresh the pantry list
+                Toast.makeText(PantryActivity.this, "Item added or updated", Toast.LENGTH_SHORT).show();
                 loadPantryItems();
             }
         });
