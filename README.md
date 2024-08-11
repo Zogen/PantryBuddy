@@ -1,3 +1,3 @@
 TODO
 
-add database, tables, features etc.
+figure out what to do with recipes, user defined or API ?
