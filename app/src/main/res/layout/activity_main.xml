@@ -15,20 +15,29 @@
         <!-- App Logo -->
         <ImageView
             android:id="@+id/appLogo"
+            android:layout_width="196dp"
+            android:layout_height="196dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/ic_app_logo_round"
+            android:contentDescription="@string/app_logo"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:id="@+id/summaryText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="32dp"
-            android:src="@drawable/ic_app_logo"
-            android:contentDescription="App Logo"
-            android:layout_gravity="center"/>
+            android:textStyle="bold"
+            android:text="@string/welcome"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"/>
 
         <!-- Pantry Button -->
         <Button
             android:id="@+id/pantryButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Pantry"
+            android:text="@string/pantry"
             android:layout_marginTop="16dp" />
 
         <!-- Grocery List Button -->
@@ -36,7 +45,7 @@
             android:id="@+id/groceryListButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Grocery List"
+            android:text="@string/grocery_list"
             android:layout_marginTop="16dp" />
 
         <Button
@@ -45,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            android:text="Recipes" />
+            android:text="@string/recipes" />
 
     </LinearLayout>
 </ScrollView>

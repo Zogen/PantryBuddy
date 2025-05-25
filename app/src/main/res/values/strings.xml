@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Pantry Buddy</string>
+    <string name="app_logo">App Logo</string>
+    <string name="welcome">Welcome to Pantry Buddy!</string>
+    <string name="pantry">Pantry</string>
+    <string name="grocery_list">Grocery List</string>
+    <string name="recipes">Recipes</string>
+    <string name="add_pantry_item">Add Pantry Item</string>
 </resources>
