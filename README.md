@@ -11,6 +11,8 @@
 - **Data Persistence**: All user data is stored locally using an SQLite database for offline access and reliability.  
 - **Smart Additions**: Prevents duplicate entries by updating quantities of existing items instead of duplicating them.  
 - **API Call Optimization**: Implements caching for recipe suggestions to reduce unnecessary API requests and improve performance.  
+- **Responsive & Persistent UI**: All dialogs and screens adapt to different screen sizes and orientations, remain persistent across rotations.  
+- **Night Mode Ready**: Supports both light and dark themes with appropriate color contrasts and drawables.  
 
 ## System Requirements
 
@@ -83,7 +85,7 @@ The landing screen features three navigation buttons:
 *Dialog for adding a new pantry item*
 
 ![Recipe Suggestions](screenshots/recipe_suggestions.png)  
-*List of recipe cards fetched from the API*
+*List of recipe cards fetched from the API, in night mode*
 
 ![Recipe Detail](screenshots/recipe_detail.png)  
 *Detailed view showing ingredients and link*
