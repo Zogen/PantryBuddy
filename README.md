@@ -104,6 +104,44 @@ The landing screen features three navigation buttons:
 
 ---
 
+## API Setup
+
+To use this project, you’ll need your own **Edamam API credentials** (App ID and App Key). Follow the steps below to set them up securely:
+
+### 1. Get your API credentials
+
+1. Sign up at [Edamam Developer](https://developer.edamam.com/).
+2. Create an application.
+3. Copy your:
+   - **App ID**
+   - **App Key**
+
+### 2. Add them to `local.properties`
+
+1. In the root of the project (next to `build.gradle.kts`), create or edit the file named:
+
+```lua
+local.properties
+```
+2. Add your credentials in this format:
+
+```properties
+EDAMAM_APP_ID=your_app_id_here
+EDAMAM_APP_KEY=your_app_key_here
+```
+### 3. Sync the project
+
+After saving `local.properties`, sync your project:
+
+- In Android Studio: **File** → **Sync Project with Gradle Files**
+- Or via terminal:
+
+```bash
+./gradlew clean build
+```
+
+---
+
 ## License
 
 This project is for academic purposes and is not currently licensed for commercial use.
